@@ -1,2 +1,3 @@
-Flask==1.1.1
-requests==2.20.0
+gunicorn
+Flask
+networkx
