@@ -4,9 +4,9 @@ from flask import Flask, request, session, render_template, flash
 app = Flask(__name__)
 @app.route("/")
 
-
+def hello():
         
-return render_template('input.html')
+        return render_template('input.html')
 
 
 #load_dotenv(os.path.join(os.path.dirname(__file__), ".env"))
