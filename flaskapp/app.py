@@ -6,7 +6,7 @@ application = Flask(__name__)
 
 def hello():
         
-        return render_template('input.html')
+        return 'dfdsf' #render_template('input.html')
 
 
 #load_dotenv(os.path.join(os.path.dirname(__file__), ".env"))
