@@ -20,6 +20,15 @@ from dotenv import load_dotenv
 from flask import Flask, request, session, render_template, flash
 from requests.auth import HTTPBasicAuth
 
+app = Flask(__name__)
+#@app.route("/")
+
+
+app.config.update(dict(
+    DEBUG=False,
+    SECRET_KEY=os.environ.get('SECRET_KEY', 'development key')
+))
+
 
 MODEL_URL = 'https://eu-gb.ml.cloud.ibm.com/ml/v4/deployments/ae1a4bbb-4b81-4c51-9d96-5963c8030d1e/predictions?version=2021-06-09'
 
@@ -51,14 +60,6 @@ MODEL_URL = 'https://eu-gb.ml.cloud.ibm.com/ml/v4/deployments/ae1a4bbb-4b81-4c51
 AUTH_TOKEN='eyJraWQiOiIyMDIxMDUyMDE4MzYiLCJhbGciOiJSUzI1NiJ9.eyJpYW1faWQiOiJJQk1pZC01NTAwMDE4Q0YxIiwiaWQiOiJJQk1pZC01NTAwMDE4Q0YxIiwicmVhbG1pZCI6IklCTWlkIiwianRpIjoiZjA3MDI2Y2UtNzYwNC00YmRlLWIwZTUtOTRlMWQ3NjVmOWU1IiwiaWRlbnRpZmllciI6IjU1MDAwMThDRjEiLCJnaXZlbl9uYW1lIjoiU2VyZ2V5IiwiZmFtaWx5X25hbWUiOiJVc2FjaGV2IiwibmFtZSI6IlNlcmdleSBVc2FjaGV2IiwiZW1haWwiOiJTZXJnZXkuVXNhY2hldkBpYm0uY29tIiwic3ViIjoiU2VyZ2V5LlVzYWNoZXZAaWJtLmNvbSIsImF1dGhuIjp7InN1YiI6IlNlcmdleS5Vc2FjaGV2QGlibS5jb20iLCJpYW1faWQiOiJpYW0tNTUwMDAxOENGMSIsIm5hbWUiOiJTZXJnZXkgVXNhY2hldiIsImdpdmVuX25hbWUiOiJTZXJnZXkiLCJmYW1pbHlfbmFtZSI6IlVzYWNoZXYiLCJlbWFpbCI6IlNlcmdleS5Vc2FjaGV2QGlibS5jb20ifSwiYWNjb3VudCI6eyJib3VuZGFyeSI6Imdsb2JhbCIsInZhbGlkIjp0cnVlLCJic3MiOiI5MmEyNTFlYjUxODg0MTdmYjM0OGEyMzQ5ZTgxNmUyYiIsImZyb3plbiI6dHJ1ZX0sImlhdCI6MTYyMzIyMDQxNywiZXhwIjoxNjIzMjI0MDE3LCJpc3MiOiJodHRwczovL2lhbS5jbG91ZC5pYm0uY29tL2lkZW50aXR5IiwiZ3JhbnRfdHlwZSI6InVybjppYm06cGFyYW1zOm9hdXRoOmdyYW50LXR5cGU6YXBpa2V5Iiwic2NvcGUiOiJpYm0gb3BlbmlkIiwiY2xpZW50X2lkIjoiZGVmYXVsdCIsImFjciI6MSwiYW1yIjpbInB3ZCJdfQ.O7l-LRrFyBxUapmCI8L1w7jhjIPwmQmaT9f3f8g64pcum7g1ZGGUA8A5yajK0LETf6XOVYy2mTzR2kY85MGKm9MQb17FY-mJPZXxVB0JrkUbLikiBlYuHApRYep84oXvyDeEXfLxzQ8iBOutAKnCsLnuFnzAT8yK8z8QsOikqSY7sGlJ3zIo7ENortk3HxszaJzk7Ja66BTpy1bNDThDCwTQmoCm0Fodm-E2vvF6ONHg0v-t0YGBS9W8PYlvU0jjhSsbwP3yqY66JTg8bhYJaeu8vamb0LHG4gDXugJC7Z6uIVtkW8wqAMYCZb2t76Vv0PqFSRmpTzLkrgWlLFlAwQ'
 
 
-app = Flask(__name__)
-@app.route("/")
-
-
-app.config.update(dict(
-    DEBUG=False,
-    SECRET_KEY=os.environ.get('SECRET_KEY', 'development key')
-))
 
 strings = {
     "gender": ['Female', 'Male'],
