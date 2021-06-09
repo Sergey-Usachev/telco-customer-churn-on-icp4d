@@ -52,6 +52,8 @@ AUTH_TOKEN='eyJraWQiOiIyMDIxMDUyMDE4MzYiLCJhbGciOiJSUzI1NiJ9.eyJpYW1faWQiOiJJQk1
 
 
 app = Flask(__name__)
+@app.route("/")
+
 
 app.config.update(dict(
     DEBUG=False,
