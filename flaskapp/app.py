@@ -16,7 +16,7 @@
 import json
 import os
 import requests
-from dotenv import load_dotenv
+#from dotenv import load_dotenv
 from flask import Flask, request, session, render_template, flash
 from requests.auth import HTTPBasicAuth
 
@@ -147,10 +147,10 @@ app.jinja_env.globals.update(generate_input_lines=generate_input_lines)
 
 
 def get_token():
-    auth_token = os.environ.get('AUTH_TOKEN')
-    auth_username = os.environ.get('AUTH_USERNAME')
-    auth_password = os.environ.get('AUTH_PASSWORD')
-    auth_url = os.environ.get('AUTH_URL')
+    auth_token = ''#  os.environ.get('AUTH_TOKEN')
+    auth_username = ''# os.environ.get('AUTH_USERNAME')
+    auth_password = ''# os.environ.get('AUTH_PASSWORD')
+    auth_url = '' #  os.environ.get('AUTH_URL')
 
 
 
