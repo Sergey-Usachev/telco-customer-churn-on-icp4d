@@ -54,7 +54,7 @@ AUTH_TOKEN='eyJraWQiOiIyMDIxMDUyMDE4MzYiLCJhbGciOiJSUzI1NiJ9.eyJpYW1faWQiOiJJQk1
 app = Flask(__name__)
 
 app.config.update(dict(
-    DEBUG=True,
+    DEBUG=False,
     SECRET_KEY=os.environ.get('SECRET_KEY', 'development key')
 ))
 
@@ -202,10 +202,10 @@ class churnForm():
             payload_scoring = {"input_data": [
                 {"fields": input_data, "values": [input_values]}
             ]}
-            print("Payload is: ")
-            print(payload_scoring)
+            #print("Payload is: ")
+            #print(payload_scoring)
             header_online = {
-             #   'Cache-Control': 'no-cache',
+                'Cache-Control': 'no-cache',
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + get_token()
             }
@@ -218,7 +218,7 @@ class churnForm():
 
 
             result = response_scoring.text
-            print("Result is ", result)
+            #print("Result is ", result)
             result_json = json.loads(result)
 
             result_keys = result_json['predictions'][0]['fields']
