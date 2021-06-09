@@ -13,12 +13,11 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-import json
-import os
-import requests
+#import json
+#import requests
 #from dotenv import load_dotenv
 from flask import Flask, request, session, render_template, flash
-from requests.auth import HTTPBasicAuth
+#from requests.auth import HTTPBasicAuth
 
 app = Flask(__name__)
 #@app.route("/")
