@@ -26,7 +26,7 @@ app = Flask(__name__)
 
 app.config.update(dict(
     DEBUG=False,
-    SECRET_KEY=os.environ.get('SECRET_KEY', 'development key')
+    #SECRET_KEY=os.environ.get('SECRET_KEY', 'development key')
 ))
 
 
