@@ -1,8 +1,8 @@
 
 from flask import Flask, request, session, render_template, flash
 
-app = Flask(__name__)
-@app.route("/")
+application = Flask(__name__)
+@application.route("/")
 
 def hello():
         
@@ -15,5 +15,5 @@ def hello():
 if __name__ == "__main__":
 #    app.run(host=host, port=int(port))
 
-   app.run()
+   application.run()
 
