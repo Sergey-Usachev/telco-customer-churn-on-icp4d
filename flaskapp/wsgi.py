@@ -20,6 +20,37 @@ from dotenv import load_dotenv
 from flask import Flask, request, session, render_template, flash
 from requests.auth import HTTPBasicAuth
 
+
+MODEL_URL = 'https://eu-gb.ml.cloud.ibm.com/ml/v4/deployments/ae1a4bbb-4b81-4c51-9d96-5963c8030d1e/predictions?version=2021-06-09'
+
+
+
+# 2. Required: fill in EITHER section A OR B below:
+
+# ### A: Authentication using username and password
+#   Fill in the authntication url, your CloudPak4Data username, and CloudPak4Data password.
+#   Example:
+#     AUTH_URL=<cluster_url>/v1/preauth/validateAuth
+#     AUTH_USERNAME=my_username
+#     AUTH_PASSWORD=super_complex_password
+
+#AUTH_URL=https://cloud.ibm.com/
+#AUTH_USERNAME=sergey.usachev@ibm.com
+#AUTH_PASSWORD=ibm_SU76ibm_SU7620213
+
+
+# ### B: (advanced) Provide your bearer token.
+#   Uncomment the "AUTH_TOKEN=" below and fill in your Bearer Token.
+#   You can generate this token by followin the lab instuctions. This token should start with "Bearer ".
+#   Note: that hese tokens will expire after a few hours so you'll need to generate a new one again later.
+#   Example:
+#       TOKEN=Bearer abCdwFghIjKLMnO1PqRsTuV2wWX3YzaBCDE4.fgH1r2... (and so on, tokens are long).
+# AUTH_TOKEN=
+
+
+AUTH_TOKEN='eyJraWQiOiIyMDIxMDUyMDE4MzYiLCJhbGciOiJSUzI1NiJ9.eyJpYW1faWQiOiJJQk1pZC01NTAwMDE4Q0YxIiwiaWQiOiJJQk1pZC01NTAwMDE4Q0YxIiwicmVhbG1pZCI6IklCTWlkIiwianRpIjoiZjA3MDI2Y2UtNzYwNC00YmRlLWIwZTUtOTRlMWQ3NjVmOWU1IiwiaWRlbnRpZmllciI6IjU1MDAwMThDRjEiLCJnaXZlbl9uYW1lIjoiU2VyZ2V5IiwiZmFtaWx5X25hbWUiOiJVc2FjaGV2IiwibmFtZSI6IlNlcmdleSBVc2FjaGV2IiwiZW1haWwiOiJTZXJnZXkuVXNhY2hldkBpYm0uY29tIiwic3ViIjoiU2VyZ2V5LlVzYWNoZXZAaWJtLmNvbSIsImF1dGhuIjp7InN1YiI6IlNlcmdleS5Vc2FjaGV2QGlibS5jb20iLCJpYW1faWQiOiJpYW0tNTUwMDAxOENGMSIsIm5hbWUiOiJTZXJnZXkgVXNhY2hldiIsImdpdmVuX25hbWUiOiJTZXJnZXkiLCJmYW1pbHlfbmFtZSI6IlVzYWNoZXYiLCJlbWFpbCI6IlNlcmdleS5Vc2FjaGV2QGlibS5jb20ifSwiYWNjb3VudCI6eyJib3VuZGFyeSI6Imdsb2JhbCIsInZhbGlkIjp0cnVlLCJic3MiOiI5MmEyNTFlYjUxODg0MTdmYjM0OGEyMzQ5ZTgxNmUyYiIsImZyb3plbiI6dHJ1ZX0sImlhdCI6MTYyMzIyMDQxNywiZXhwIjoxNjIzMjI0MDE3LCJpc3MiOiJodHRwczovL2lhbS5jbG91ZC5pYm0uY29tL2lkZW50aXR5IiwiZ3JhbnRfdHlwZSI6InVybjppYm06cGFyYW1zOm9hdXRoOmdyYW50LXR5cGU6YXBpa2V5Iiwic2NvcGUiOiJpYm0gb3BlbmlkIiwiY2xpZW50X2lkIjoiZGVmYXVsdCIsImFjciI6MSwiYW1yIjpbInB3ZCJdfQ.O7l-LRrFyBxUapmCI8L1w7jhjIPwmQmaT9f3f8g64pcum7g1ZGGUA8A5yajK0LETf6XOVYy2mTzR2kY85MGKm9MQb17FY-mJPZXxVB0JrkUbLikiBlYuHApRYep84oXvyDeEXfLxzQ8iBOutAKnCsLnuFnzAT8yK8z8QsOikqSY7sGlJ3zIo7ENortk3HxszaJzk7Ja66BTpy1bNDThDCwTQmoCm0Fodm-E2vvF6ONHg0v-t0YGBS9W8PYlvU0jjhSsbwP3yqY66JTg8bhYJaeu8vamb0LHG4gDXugJC7Z6uIVtkW8wqAMYCZb2t76Vv0PqFSRmpTzLkrgWlLFlAwQ'
+
+
 app = Flask(__name__)
 
 app.config.update(dict(
@@ -118,6 +149,8 @@ def get_token():
     auth_password = os.environ.get('AUTH_PASSWORD')
     auth_url = os.environ.get('AUTH_URL')
 
+
+
     if (auth_token):
         # All three are set. bad bad!
         if (auth_username and auth_password):
@@ -172,15 +205,18 @@ class churnForm():
             print("Payload is: ")
             print(payload_scoring)
             header_online = {
-                'Cache-Control': 'no-cache',
+             #   'Cache-Control': 'no-cache',
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + get_token()
             }
             response_scoring = requests.post(
                 scoring_href,
-                verify=False,
+                verify=True,
                 json=payload_scoring,
                 headers=header_online)
+
+
+
             result = response_scoring.text
             print("Result is ", result)
             result_json = json.loads(result)
@@ -190,7 +226,7 @@ class churnForm():
 
             result_dict = dict(zip(result_keys, result_vals[0]))
 
-            churn_risk = result_dict["predictedLabel"].lower()
+            churn_risk = result_dict["prediction"].lower()
             no_percent = result_dict["probability"][0] * 100
             yes_percent = result_dict["probability"][1] * 100
             flash('Percentage of this customer leaving is: %.0f%%'
@@ -208,8 +244,11 @@ class churnForm():
             return render_template('input.html')
 
 
-load_dotenv(os.path.join(os.path.dirname(__file__), ".env"))
-port = os.environ.get('PORT', '5000')
-host = os.environ.get('HOST', '0.0.0.0')
+#load_dotenv(os.path.join(os.path.dirname(__file__), ".env"))
+#port = os.environ.get('PORT', '5000')
+#host = os.environ.get('HOST', '0.0.0.0')
 if __name__ == "__main__":
-    app.run(host=host, port=int(port))
+#    app.run(host=host, port=int(port))
+
+   app.run()
+
